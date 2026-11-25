@@ -32,7 +32,39 @@
  *   https://webaim.org/resources/contrastchecker/
  *   https://fonts.google.com/
  */
-
 :root {
-  /* TODO */
+  --marca-primario: #2f6b2f;
+  --marca-secundario: #c8792b;
+  --marca-fondo: #fbf8f1;
+  --marca-texto: #2b2a26;
+  --marca-fuente: 'Open Sans', sans-serif;
+  --marca-fuente-titulos: 'Merriweather', serif;
+
+  --bs-body-bg: var(--marca-fondo);
+  --bs-body-color: var(--marca-texto);
+  --bs-body-font-family: var(--marca-fuente);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--marca-primario);
+  --bs-btn-border-color: var(--marca-primario);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--marca-primario);
+  --bs-btn-hover-border-color: var(--marca-primario);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--marca-primario);
+  --bs-btn-active-border-color: var(--marca-primario);
+}
+
+h1, h2, h3 {
+  font-family: var(--marca-fuente-titulos);
+}
+
+.navbar {
+  background-color: var(--marca-primario);
+}
+
+:focus-visible {
+  outline: 3px solid var(--marca-secundario);
+  outline-offset: 3px;
 }
