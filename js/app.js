@@ -35,14 +35,34 @@ const estado = {
 // un badge con la categoría, la descripción, el valor de
 // item[configuracion.campoOrden] con su etiqueta, y tus 2 campos propios.
 function crearCard(item) {
+   const precio = item[configuracion.campoOrden].toLocaleString('es-CO');
 
+   return `
+      <div class="col">
+         <article class="card border-0 shadow-sm h-100">
+            <img class="card-img-top" src="${item.imagen}" alt="Imagen de ${item.nombre}">
+            <div class="card-body">
+               <h3 class="card-title">${item.nombre}</h3>
+               <span class="badge" style="background-color: var(--marca-secundario); color: var(--marca-texto)">${item.categoria}</span>
+               <p class="card-text">${item.descripcion}</p>
+               <p><strong style="color: var(--marca-primario)">${configuracion.etiquetaValor}: $${precio}</strong></p>
+               <p>Unidad: ${item.unidad}</p>
+               <p>Municipio: ${item.municipio}</p>
+            </div>
+         </article>
+      </div>
+   `;
 }
 
 // TODO: devuelve el HTML de TODAS las tarjetas de la lista (map + join).
 // Si la lista está vacía, devuelve un mensaje (por ejemplo un <p>) que
 // diga que no hay resultados.
 function generarHTML(lista) {
+   if (lista.length === 0) {
+      return '<p>No hay resultados para tu búsqueda.</p>';
+   }
 
+   return lista.map(crearCard).join('');
 }
 
 /* ---------------------------------------------------------------
@@ -85,7 +105,11 @@ function aplicarFiltros(lista, estadoActual) {
 // resultado en #catalogo con innerHTML y actualiza #contador
 // (por ejemplo "Mostrando 5 de 12 resultados").
 function actualizarVista() {
+   const catalogo = document.getElementById('catalogo');
+   const contador = document.getElementById('contador');
 
+   catalogo.innerHTML = generarHTML(items);
+   contador.textContent = `Mostrando ${items.length} resultados`;
 }
 
 // TODO: conecta los eventos y pinta por primera vez.
@@ -95,9 +119,8 @@ function actualizarVista() {
 //   change en #orden: actualiza estado.orden
 // Después de cada cambio llama a actualizarVista().
 function iniciar() {
-
+   actualizarVista();
 }
-
 // No cambies estas líneas: así el archivo también carga en el verificador,
 // donde no existe document.
 if (typeof document !== 'undefined') {
