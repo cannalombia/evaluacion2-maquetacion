@@ -1,7 +1,7 @@
 # Entrega - Evaluación 2
 
 Nombre: Andres Felipe Pinzon Del Valle
-Tema número: Empresa 1
+Tema número: 1
 Tema: Mercado campesino. "Del campo a tu mesa, sin intermediarios" 
 Empresa: La Cosecha del Eje
 
