@@ -13,7 +13,6 @@
   <!-- TODO (issue #1): aquí va el <link> de Google Fonts con las dos fuentes de tu Manual de marca -->
   <link rel="stylesheet" href="css/estilos.css">
 </head>
-<body>
 
   <!--
     TODO (issue #2): estructura de la página. Consulta ISSUES.md, la guía y la
@@ -38,6 +37,76 @@
        - section id="acerca" (aria-labelledby + h2) con una grilla de 2 columnas.
     4. footer.
   -->
+    <body>
+
+  <a class="visually-hidden-focusable" href="#contenido">Saltar al contenido</a>
+  <header class="sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" aria-label="Navegación principal">
+     <div class="container">
+  <a class="navbar-brand" href="#">La Cosecha del Eje</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Abrir o cerrar el menú">
+  <span class="navbar-toggler-icon"></span> 
+      </button>
+  <div class="collapse navbar-collapse" id="menu">
+  <div class="navbar-nav ms-auto">
+  <a class="nav-link" href="#catalogo">Catálogo</a>
+  <a class="nav-link" href="#acerca">Nosotros</a>
+  <a class="nav-link" href="#contacto">Contacto</a>
+  </div>
+  </div>
+  </div>
+  </nav>
+</header>
+
+ <main id="contenido">
+
+  <section class="container py-4" aria-labelledby="titulo-presentacion">
+  <div class="row align-items-center g-4">
+  <div class="col-md-7">
+  <h1 id="titulo-presentacion">Del campo del Eje a tu mesa</h1>
+  <p>Del campo a tu mesa, sin intermediarios</p>
+  <a class="btn btn-outline-primary" href="#catalogo">Ver productos</a>
+  </div>
+
+    <div class="col-md-5">
+    <img class="img-fluid" src="img/placeholder.svg" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- Punto 3: catálogo con filtros por categoría, buscador, selector de orden, contador y grilla de productos. -->
+<section id="seccion-catalogo" class="container py-4" aria-labelledby="titulo-catalogo">
+   <h2 id="titulo-catalogo">Catálogo</h2>
+
+   <div class="btn-group flex-wrap mb-3" role="group" aria-label="Filtrar por categoría">
+      <button type="button" class="btn btn-outline-primary active" data-categoria="todas" aria-pressed="true">Todas</button>
+      <button type="button" class="btn btn-outline-primary" data-categoria="frutas" aria-pressed="false">Frutas</button>
+      <button type="button" class="btn btn-outline-primary" data-categoria="verduras" aria-pressed="false">Verduras</button>
+      <button type="button" class="btn btn-outline-primary" data-categoria="lacteos" aria-pressed="false">Lácteos</button>
+      <button type="button" class="btn btn-outline-primary" data-categoria="granos" aria-pressed="false">Granos</button>
+   </div>
+
+   <div class="row g-3 mb-3">
+      <div class="col-md-6">
+         <label class="form-label" for="buscador">Buscar producto</label>
+         <input class="form-control" type="search" id="buscador">
+      </div>
+
+      <div class="col-md-6">
+         <label class="form-label" for="orden">Ordenar por</label>
+         <select class="form-select" id="orden">
+            <option value="nombre-asc">Nombre de A a Z</option>
+            <option value="valor-asc">Menor precio</option>
+            <option value="valor-desc">Mayor precio</option>
+         </select>
+      </div>
+   </div>
+
+   <p id="contador" aria-live="polite"></p>
+   <div id="catalogo" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3"></div>
+</section>
+
+</main>
 
   <!-- Bootstrap JS (necesario para que la navbar se pliegue) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
