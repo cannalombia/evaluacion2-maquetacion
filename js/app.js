@@ -19,9 +19,9 @@
 
 // Estado de la interfaz: lo que la persona eligió en los controles.
 const estado = {
-  categoria: 'todas',
-  texto: '',
-  orden: 'nombre-asc'
+   categoria: 'todas',
+   texto: '',
+   orden: 'nombre-asc'
 };
 
 /* ---------------------------------------------------------------
@@ -73,14 +73,23 @@ function generarHTML(lista) {
 // TODO: devuelve solo los elementos de esa categoría.
 // Si categoria es 'todas', devuelve todos.
 function filtrarPorCategoria(lista, categoria) {
+   if (categoria === 'todas') {
+      return lista;
+   }
 
+   return lista.filter(item => item.categoria === categoria);
 }
 
 // TODO: devuelve los elementos cuyo nombre o descripcion contienen el
 // texto, sin importar mayúsculas ni espacios al inicio o al final.
 // Si el texto está vacío, devuelve todos.
 function buscarPorTexto(lista, texto) {
+   const busqueda = texto.trim().toLowerCase();
 
+   return lista.filter(item =>
+      item.nombre.toLowerCase().includes(busqueda) ||
+      item.descripcion.toLowerCase().includes(busqueda)
+   );
 }
 
 // TODO: devuelve una COPIA ordenada según el criterio:
@@ -88,13 +97,26 @@ function buscarPorTexto(lista, texto) {
 //   'valor-asc'   de menor a mayor según item[configuracion.campoOrden]
 //   'valor-desc'  de mayor a menor
 function ordenarItems(lista, criterio) {
+   const copia = [...lista];
+   const campo = configuracion.campoOrden;
 
+   if (criterio === 'nombre-asc') {
+      copia.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+   } else if (criterio === 'valor-asc') {
+      copia.sort((a, b) => a[campo] - b[campo]);
+   } else if (criterio === 'valor-desc') {
+      copia.sort((a, b) => b[campo] - a[campo]);
+   }
+
+   return copia;
 }
 
 // TODO: aplica las tres funciones anteriores en cadena según el estado
 // ({ categoria, texto, orden }) y devuelve la lista resultante.
 function aplicarFiltros(lista, estadoActual) {
-
+   const por_categoria = filtrarPorCategoria(lista, estadoActual.categoria);
+   const por_texto = buscarPorTexto(por_categoria, estadoActual.texto);
+   return ordenarItems(por_texto, estadoActual.orden);
 }
 
 /* ---------------------------------------------------------------
@@ -105,11 +127,12 @@ function aplicarFiltros(lista, estadoActual) {
 // resultado en #catalogo con innerHTML y actualiza #contador
 // (por ejemplo "Mostrando 5 de 12 resultados").
 function actualizarVista() {
+   const lista = aplicarFiltros(items, estado);
    const catalogo = document.getElementById('catalogo');
    const contador = document.getElementById('contador');
 
-   catalogo.innerHTML = generarHTML(items);
-   contador.textContent = `Mostrando ${items.length} resultados`;
+   catalogo.innerHTML = generarHTML(lista);
+   contador.textContent = `Mostrando ${lista.length} resultados`;
 }
 
 // TODO: conecta los eventos y pinta por primera vez.
@@ -119,10 +142,39 @@ function actualizarVista() {
 //   change en #orden: actualiza estado.orden
 // Después de cada cambio llama a actualizarVista().
 function iniciar() {
+   const botones = document.querySelectorAll('button[data-categoria]');
+   const buscador = document.getElementById('buscador');
+   const orden = document.getElementById('orden');
+
+   botones.forEach(boton => {
+      boton.addEventListener('click', () => {
+         estado.categoria = boton.dataset.categoria;
+
+         botones.forEach(opcion => {
+            const seleccionado = opcion === boton;
+            opcion.setAttribute('aria-pressed', String(seleccionado));
+            opcion.classList.toggle('active', seleccionado);
+         });
+
+         actualizarVista();
+      });
+   });
+
+   buscador.addEventListener('input', () => {
+      estado.texto = buscador.value;
+      actualizarVista();
+   });
+
+   orden.addEventListener('change', () => {
+      estado.orden = orden.value;
+      actualizarVista();
+   });
+
    actualizarVista();
 }
+
 // No cambies estas líneas: así el archivo también carga en el verificador,
 // donde no existe document.
 if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', iniciar);
+   document.addEventListener('DOMContentLoaded', iniciar);
 }
